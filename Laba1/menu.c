@@ -4,7 +4,7 @@ customer1 getCustomer(files* names, index1* theIndex)                           
 {
 	int indexesSize = 0;
 	customer1 person = { -1, 0, "", -1, -1, -1 };
-	index1* indexes = IndexesFromFile(&indexesSize, names->index);
+	index1* indexes = IndexesFromFile(&indexesSize, names->ID);
 	if (indexesSize == 0)
 	{
 		printf("\nТакого клиента нет.\n");
@@ -66,8 +66,8 @@ void insertCustomer(files* names)                                               
 {
 	customer1 person = createCustomer();
 	index1 index;
-	index = CustomerToFile(person, names->data, names->index, names->rubbish);
-	IndexToFileEnd(index, names->index);
+	index = CustomerToFile(person, names->data, names->ID, names->rubbish);
+	IndexToFileEnd(index, names->ID);
 	printf("Записали!\n");
 }
 void insertTour(files* names)                                                                 //insert-s
@@ -115,7 +115,7 @@ void clearString(char string[])
 
 void printNamesOfFiles(files* names)
 {
-	printf("\nAll files:\n1)%s.\n2)%s.\n3)%s.\n4)%s\n5)%s.\n\n", names->index, names->data, names->tour, names->rubbish, names->tourRubbish);
+	printf("\nAll files:\n1)%s.\n2)%s.\n3)%s.\n4)%s\n5)%s.\n\n", names->ID, names->data, names->tour, names->rubbish, names->tourRubbish);
 }
 
 void printNumber(files* names)
@@ -127,7 +127,7 @@ void printNumber(files* names)
 		char line[] = { "Количество: %d\n\n" };
 		switch (numberOfFile)
 		{
-		case 1: printf(line, getNumberOfItemsInFile(names->index));
+		case 1: printf(line, getNumberOfItemsInFile(names->ID));
 			break;
 		case 2: printf(line, getNumberOfItemsInFile(names->data));
 			break;

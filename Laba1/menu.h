@@ -6,7 +6,7 @@
 #include "base.h"
 typedef struct FileNames
 {
-	char index[length];
+	char ID[length];
 	char data[length];
 	char tour[length];
 	char rubbish[length];
