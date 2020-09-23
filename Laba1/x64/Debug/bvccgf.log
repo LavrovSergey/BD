@@ -1,0 +1,12 @@
+﻿  main.c
+  base.c
+A:\GitHub\BD\Laba1\base.c(315,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+A:\GitHub\BD\Laba1\base.c(736,14): warning C4098: printAllDateFromTourFile: функция типа "void", возвращающая значение
+A:\GitHub\BD\Laba1\base.c(769,14): warning C4098: printAllDateFromTourRubbishFile: функция типа "void", возвращающая значение
+  menu.c
+A:\GitHub\BD\Laba1\menu.c(15,9): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "2" имеет тип "size_t"
+A:\GitHub\BD\Laba1\menu.c(15,9): message : рекомендуется использовать "%zd" в строке форматирования
+A:\GitHub\BD\Laba1\menu.c(342,14): warning C4101: person: неиспользованная локальная переменная
+A:\GitHub\BD\Laba1\menu.c(356,10): warning C4101: trip: неиспользованная локальная переменная
+  Создание кода...
+  bvccgf.vcxproj -> A:\GitHub\BD\Laba1\x64\Debug\bvccgf.exe
