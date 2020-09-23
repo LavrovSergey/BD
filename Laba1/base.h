@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-#define LEN 51
+#define length 51
 
 typedef struct Index
 {
@@ -13,7 +13,7 @@ typedef struct Customer
 {
 	int pKey;
 	int status;
-	char name[LEN];
+	char name[length];
 	int phone;
 	int headerAddress;
 	int numberOfTours;
@@ -23,9 +23,9 @@ typedef struct Tour
 {
 	int pKey;
 	int status;
-	char tourName[LEN];
-	char begin[LEN / 2];
-	char end[LEN / 2];
+	char tourName[length];
+	char begin[length / 2];
+	char end[length / 2];
 	int price;
 	int nextAddress;
 

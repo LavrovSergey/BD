@@ -87,7 +87,7 @@ customer1 createCustomer()
 {
 	printf("\nСоздаем клиента.\n");
 	char name[256];
-	readString(name, "Имя Фамилия", LEN);
+	readString(name, "Имя Фамилия", length);
 	int phone = readInt("Телефон");
 	customer1 person = { 0, 1, "", phone, -1, 0 };
 	_memccpy(person.name, name, '\0', strlen(name));
@@ -108,9 +108,9 @@ tour1 createTour()
 	char Name[256];
 	char b[256];
 	char e[256];
-	readString(Name, "Название тура", LEN);
-	readString(b, "Начало тура", LEN / 2);
-	readString(e, "Конц тура", LEN / 2);
+	readString(Name, "Название тура", length);
+	readString(b, "Начало тура", length / 2);
+	readString(e, "Конц тура", length / 2);
 	int price = readInt("Цена");
 	tour1 trip = { 0, 1, "","","", price, -1 };
 	_memccpy(trip.tourName, Name, '\0', strlen(Name));
@@ -150,7 +150,7 @@ void updateTheCustomer(fileNames* names)                                        
 		{
 			char newName[256];
 			clearString(person.name);
-			readString(newName, "новое имя", LEN);
+			readString(newName, "новое имя", length);
 			_memccpy(person.name, newName, '\0', strlen(newName));
 			sum++;
 			continue;
@@ -189,7 +189,7 @@ void updateTheTour(fileNames* names)                                            
 		{
 			char newName[256];
 			clearString(trip.tourName);
-			readString(newName, "новое название", LEN);
+			readString(newName, "новое название", length);
 			_memccpy(trip.tourName, newName, '\0', strlen(newName));
 			sum++;
 			continue;
@@ -199,7 +199,7 @@ void updateTheTour(fileNames* names)                                            
 		{
 			char newbegin[256];
 			clearString(trip.begin);
-			readString(newbegin, "новое название", LEN / 2);
+			readString(newbegin, "новое название", length / 2);
 			_memccpy(trip.begin, newbegin, '\0', strlen(newbegin));
 			sum++;
 			continue;
@@ -209,7 +209,7 @@ void updateTheTour(fileNames* names)                                            
 		{
 			char newend[256];
 			clearString(trip.end);
-			readString(newend, "новое название", LEN / 2);
+			readString(newend, "новое название", length / 2);
 			_memccpy(trip.end, newend, '\0', strlen(newend));
 			sum++;
 			continue;
