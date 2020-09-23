@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "base.h"
-typedef struct tagFileNames
+typedef struct FileNames
 {
 	char index[length];
 	char data[length];
@@ -12,6 +12,6 @@ typedef struct tagFileNames
 	char rubbish[length];
 	char tourRubbish[length];
 
-} fileNames;
+} files;
 
 void menu();

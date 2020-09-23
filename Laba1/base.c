@@ -1,12 +1,12 @@
 #include "base.h"
 
-void Fileerrors(FILE* file, int numberOfError, char functionName[])
+void Fileerrors(FILE* file, int error, char functionName[])
 {
-	fprintf(stderr, "Error%d in function '%s'!...\n", numberOfError, functionName);
+	fprintf(stderr, "Error%d тут '%s'!...\n", error, functionName);
 	if (file != NULL) fclose(file);
 	exit(1);
 }
-void writeIndexesInFile(index1* indexesTable, int size, char indexFileName[])
+void IndexesInFile(index1* indexesTable, int size, char indexFileName[])
 {
 	char functionName[] = "writeIndexesInFile";
 	checkFileEmptiness(indexFileName);
@@ -18,11 +18,11 @@ void writeIndexesInFile(index1* indexesTable, int size, char indexFileName[])
 		return;
 	}
 	fwrite(&size, sizeof(int), 1, file);
-	if (fwrite(indexesTable, sizeof(index1), size, file) != size)
-	{
-		Fileerrors(file, 2, functionName);
-		return;
-	}
+	    if (fwrite(indexesTable, sizeof(index1), size, file) != size)
+	         {
+		        Fileerrors(file, 2, functionName);
+		        return;
+	         }
 	fclose(file);
 }
 customer1 readStudentFromFile(int address, char dataFileName[])
@@ -47,7 +47,7 @@ customer1 readStudentFromFile(int address, char dataFileName[])
 
 	return person;
 }
-index1* readIndexesFromFile(int* readSize, char indexFileName[])
+index1* IndexesFromFile(int* readSize, char indexFileName[])
 {
 	char functionName[] = "readIndexesFromFile";
 	checkFileEmptiness(indexFileName);
@@ -79,7 +79,7 @@ index1* readIndexesFromFile(int* readSize, char indexFileName[])
 
 	return indexesTable;
 }
-void addIndexToFileEnd(index1 theIndex, char indexFileName[])
+void IndexToFileEnd(index1 theIndex, char indexFileName[])
 {
 	char functionName[] = "appendIndexToFile";
 	checkFileEmptiness(indexFileName);
@@ -125,7 +125,7 @@ void printTours(tour1 trip)
 {
 	printf("\nНазвание: %s, \nНачало: %s, \nКонец: %s, Цена: %d.\n", trip.tourName,trip.begin,trip.end, trip.price);
 }
-void createSourceFile(char fileName[])
+void createFile(char fileName[])
 {
 	char functionName[] = "createSourceFile";
 	FILE* file;
@@ -169,10 +169,10 @@ void changeNumberOfItemsInFile(char fileName[], int step)
 	}
 	fclose(file);
 }
-index1 insertCustomerToFile(customer1 person, char dataFileName[], char indexFileName[], char rubbishFileName[])
+index1 CustomerToFile(customer1 person, char dataFileName[], char indexFileName[], char rubbishFileName[])
 {
 	char functionName[] = "insertStudentToFile";
-	index1 theIndex = getAddressOfEmptySpace(dataFileName, indexFileName, rubbishFileName), err = { -1, -1 };
+	index1 theIndex = AddressOfEmpty(dataFileName, indexFileName, rubbishFileName), err = { -1, -1 };
 	person.pKey = theIndex.pKey;
 	checkFileEmptiness(dataFileName);
 	FILE* file;
@@ -193,10 +193,10 @@ index1 insertCustomerToFile(customer1 person, char dataFileName[], char indexFil
 
 	return theIndex;
 }
-index1 getAddressOfEmptySpace(char dataFileName[], char indexFileName[], char rubbishFileName[])
+index1 AddressOfEmpty(char dataFileName[], char indexFileName[], char rubbishFileName[])
 {
 	index1 newIndex = { -1, -1 };
-	newIndex = findRubbishIndex(rubbishFileName, indexFileName);
+	newIndex = RubbishID(rubbishFileName, indexFileName);
 	if (newIndex.address == -1 || newIndex.pKey == -1)
 	{
 		newIndex = createNewIndex(dataFileName, indexFileName);
@@ -204,7 +204,7 @@ index1 getAddressOfEmptySpace(char dataFileName[], char indexFileName[], char ru
 
 	return newIndex;
 }
-index1 findRubbishIndex(char rubbishFileName[], char indexFileName[])
+index1 RubbishID(char rubbishFileName[], char indexFileName[])
 {
 	char functionName[] = "findRubbishIndex";
 	index1 err = { -1, -1 };
@@ -276,7 +276,7 @@ int getLastPKey(char indexFileName[])
 {
 	int lastPKey = -1;
 	int size = 0;
-	index1* indexes = readIndexesFromFile(&size, indexFileName);
+	index1* indexes = IndexesFromFile(&size, indexFileName);
 	if (size != 0)
 	{
 		lastPKey = indexes[size - 1].pKey;
@@ -321,14 +321,14 @@ void checkFileEmptiness(char fileName[])
 {
 	if (isEmpty(fileName) == 0)
 	{
-		createSourceFile(fileName);
+		createFile(fileName);
 	}
 }
 
 void removeIndex(int pKey, char indexFileName[], char rubbishFileName[])
 {
 	int size = 0;
-	index1* indexes = readIndexesFromFile(&size, indexFileName);
+	index1* indexes = IndexesFromFile(&size, indexFileName);
 	if (indexes == NULL) return;
 	int pointer = 0;
 	for (int i = 0; i < size; i++)
@@ -339,13 +339,13 @@ void removeIndex(int pKey, char indexFileName[], char rubbishFileName[])
 			break;
 		}
 	}
-	addIndexToFileEnd(indexes[pointer], rubbishFileName);
+	IndexToFileEnd(indexes[pointer], rubbishFileName);
 	for (int i = pointer; i < size - 1; i++)
 	{
 		indexes[i] = indexes[i + 1];
 	}
 	size--;
-	writeIndexesInFile(indexes, size, indexFileName);
+	IndexesInFile(indexes, size, indexFileName);
 	free(indexes);
 }
 void updateCustomer(customer1 newPerson, int address, char dataFileName[])
