@@ -6,11 +6,11 @@
 #include "base.h"
 typedef struct tagFileNames
 {
-	char index[LEN];//indexFileName
-	char data[LEN];//dataFileName
-	char tour[LEN];//progressFileName
-	char rubbish[LEN];//rubishFileName
-	char tourRubbish[LEN];//progressFileName
+	char index[LEN];
+	char data[LEN];
+	char tour[LEN];
+	char rubbish[LEN];
+	char tourRubbish[LEN];
 
 } fileNames;
 
