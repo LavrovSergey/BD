@@ -1,6 +1,6 @@
 #include "base.h"
 
-void errorWorkingWithFile(FILE* file, int numberOfError, char functionName[])
+void Fileerrors(FILE* file, int numberOfError, char functionName[])
 {
 	fprintf(stderr, "Error%d in function '%s'!...\n", numberOfError, functionName);
 	if (file != NULL) fclose(file);
@@ -14,13 +14,13 @@ void writeIndexesInFile(index1* indexesTable, int size, char indexFileName[])
 	fopen_s(&file, indexFileName, "wb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	fwrite(&size, sizeof(int), 1, file);
 	if (fwrite(indexesTable, sizeof(index1), size, file) != size)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -34,13 +34,13 @@ customer1 readStudentFromFile(int address, char dataFileName[])
 	customer1 person = { -1, -1, "", -1, -1, -1 };
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return person;
 	}
 	fseek(file, (address * sizeof(customer1) + sizeof(int)), SEEK_SET);
 	if (fread(&person, sizeof(customer1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return person;
 	}
 	fclose(file);
@@ -55,24 +55,24 @@ index1* readIndexesFromFile(int* readSize, char indexFileName[])
 	fopen_s(&file, indexFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return NULL;
 	}
 	if (fread(readSize, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return NULL;
 	}
 	if (readSize == 0) return NULL;
 	index1* indexesTable = (index1*)malloc(*readSize * sizeof(index1));
 	if (indexesTable == NULL)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return NULL;
 	}
 	if (fread(indexesTable, sizeof(index1), *readSize, file) != *readSize)
 	{
-		errorWorkingWithFile(file, 4, functionName);
+		Fileerrors(file, 4, functionName);
 		return NULL;
 	}
 	fclose(file);
@@ -87,12 +87,12 @@ void addIndexToFileEnd(index1 theIndex, char indexFileName[])
 	fopen_s(&file, indexFileName, "ab");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	if (fwrite(&theIndex, sizeof(index1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -132,13 +132,13 @@ void createSourceFile(char fileName[])
 	fopen_s(&file, fileName, "wb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	int number = 0;
 	if (fwrite(&number, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -151,20 +151,20 @@ void changeNumberOfItemsInFile(char fileName[], int step)
 	fopen_s(&file, fileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	int number = 0;
 	if (fread(&number, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	number += step;
 	fseek(file, 0L, SEEK_SET);
 	if (fwrite(&number, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return;
 	}
 	fclose(file);
@@ -179,13 +179,13 @@ index1 insertCustomerToFile(customer1 person, char dataFileName[], char indexFil
 	fopen_s(&file, dataFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return err;
 	}
 	fseek(file, (theIndex.address * sizeof(customer1) + sizeof(int)), SEEK_SET);
 	if (fwrite(&person, sizeof(customer1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return err;
 	}
 	fclose(file);
@@ -213,13 +213,13 @@ index1 findRubbishIndex(char rubbishFileName[], char indexFileName[])
 	fopen_s(&file, rubbishFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return err;
 	}
 	int size = 0;
 	if (fread(&size, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return err;
 	}
 	if (size > 0)
@@ -227,12 +227,12 @@ index1 findRubbishIndex(char rubbishFileName[], char indexFileName[])
 		index1* indexes = (index1*)malloc(size * sizeof(index1));
 		if (indexes == NULL)
 		{
-			errorWorkingWithFile(file, 3, functionName);
+			Fileerrors(file, 3, functionName);
 			return err;
 		}
 		if (fread(indexes, sizeof(index1), size, file) != size)
 		{
-			errorWorkingWithFile(file, 4, functionName);
+			Fileerrors(file, 4, functionName);
 			return err;
 		}
 		fclose(file);
@@ -240,18 +240,18 @@ index1 findRubbishIndex(char rubbishFileName[], char indexFileName[])
 		fopen_s(&writeFile, rubbishFileName, "wb");
 		if (writeFile == NULL)
 		{
-			errorWorkingWithFile(writeFile, 5, functionName);
+			Fileerrors(writeFile, 5, functionName);
 			return err;
 		}
 		size--;
 		if (fwrite(&size, sizeof(int), 1, writeFile) != 1)
 		{
-			errorWorkingWithFile(writeFile, 6, functionName);
+			Fileerrors(writeFile, 6, functionName);
 			return err;
 		}
 		if (fwrite(indexes, sizeof(index1), size, writeFile) != size)
 		{
-			errorWorkingWithFile(writeFile, 7, functionName);
+			Fileerrors(writeFile, 7, functionName);
 			return err;
 		}
 		index1 theIndex = indexes[size];
@@ -297,7 +297,7 @@ int getAddressOfEnd(char fileName[], unsigned long sizeOfBeginDate, unsigned lon
 	fopen_s(&file, fileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return -1;
 	}
 	fseek(file, 0L, SEEK_END);
@@ -356,21 +356,21 @@ void updateCustomer(customer1 newPerson, int address, char dataFileName[])
 	fopen_s(&file, dataFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	fseek(file, (address * sizeof(customer1) + sizeof(int)), SEEK_SET);
 	customer1 person = { 0, 0, "none", 0, -1, 0 };
 	if (fread(&person, sizeof(customer1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	newPerson.pKey = person.pKey;
 	fseek(file, -1 * (long)sizeof(customer1), SEEK_CUR);
 	if (fwrite(&newPerson, sizeof(customer1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return;
 	}
 	fclose(file);
@@ -384,14 +384,14 @@ void removeCustomer(customer1 person, int address, char dataFileName[], char tou
 	fopen_s(&file, dataFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	fseek(file, (address * sizeof(customer1) + sizeof(int)), SEEK_SET);
 	person.status = 0;
 	if (fwrite(&person, sizeof(customer1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -409,13 +409,13 @@ int getAddressForTour(char tourFileName[], char tourRubbishFileName[])
 	fopen_s(&file, tourRubbishFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return -1;
 	}
 	int size = 0;
 	if (fread(&size, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return -1;
 	}
 	if (size > 0)
@@ -423,12 +423,12 @@ int getAddressForTour(char tourFileName[], char tourRubbishFileName[])
 		int* addresses = (int*)malloc(size * sizeof(int));
 		if (addresses == NULL)
 		{
-			errorWorkingWithFile(file, 3, functionName);
+			Fileerrors(file, 3, functionName);
 			return -1;
 		}
 		if (fread(addresses, sizeof(int), size, file) != size)
 		{
-			errorWorkingWithFile(file, 4, functionName);
+			Fileerrors(file, 4, functionName);
 			return -1;
 		}
 		fclose(file);
@@ -436,18 +436,18 @@ int getAddressForTour(char tourFileName[], char tourRubbishFileName[])
 		fopen_s(&writeFile, tourRubbishFileName, "wb");
 		if (writeFile == NULL)
 		{
-			errorWorkingWithFile(writeFile, 5, functionName);
+			Fileerrors(writeFile, 5, functionName);
 			return -1;
 		}
 		size--;
 		if (fwrite(&size, sizeof(int), 1, writeFile) != 1)
 		{
-			errorWorkingWithFile(writeFile, 6, functionName);
+			Fileerrors(writeFile, 6, functionName);
 			return -1;
 		}
 		if (fwrite(addresses, sizeof(int), size, writeFile) != size)
 		{
-			errorWorkingWithFile(writeFile, 7, functionName);
+			Fileerrors(writeFile, 7, functionName);
 			return -1;
 		}
 		int address = addresses[size];
@@ -469,13 +469,13 @@ int getLastTourKey(char tourFileName[], customer1 person)
 	tour1 trip = { 0, 0, "None", "None", "None", 0, -1 };
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return -1;
 	}
 	fseek(file, (person.headerAddress * sizeof(tour1) + sizeof(int)), SEEK_SET);
 	if (fread(&trip, sizeof(tour1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return -1;
 	}
 	fclose(file);
@@ -495,13 +495,13 @@ void insertToursToFile(tour1 trip, customer1* person, char tourFileName[], char 
 	fopen_s(&file, tourFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	fseek(file, (address * sizeof(tour1) + sizeof(int)), SEEK_SET);
 	if (fwrite(&trip, sizeof(tour1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -513,12 +513,12 @@ tour1* allToursOfCustomer(customer1 person, index1 indexes[], char tourFileName[
 	tour1* allTours = (tour1*)malloc(person.numberOfTours * sizeof(tour1));
 	if (allTours == NULL)
 	{
-		errorWorkingWithFile(NULL, 1, functionName);
+		Fileerrors(NULL, 1, functionName);
 		return NULL;
 	}
 	if (indexes == NULL)
 	{
-		errorWorkingWithFile(NULL, 2, functionName);
+		Fileerrors(NULL, 2, functionName);
 		return NULL;
 	}
 	checkFileEmptiness(tourFileName);
@@ -526,7 +526,7 @@ tour1* allToursOfCustomer(customer1 person, index1 indexes[], char tourFileName[
 	fopen_s(&file, tourFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return NULL;
 	}
 	int address = person.headerAddress;
@@ -536,7 +536,7 @@ tour1* allToursOfCustomer(customer1 person, index1 indexes[], char tourFileName[
 		fseek(file, (address * sizeof(tour1) + sizeof(int)), SEEK_SET);
 		if (fread(&allTours[i], sizeof(tour1), 1, file) != 1)
 		{
-			errorWorkingWithFile(file, 4, functionName);
+			Fileerrors(file, 4, functionName);
 			return NULL;
 		}
 		indexes[i].pKey = allTours[i].pKey;
@@ -555,21 +555,21 @@ void updateTour(tour1 tourProgress, int address, char tourFileName[])
 	fopen_s(&file, tourFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	fseek(file, (address * sizeof(tour1) + sizeof(int)), SEEK_SET);
 	tour1 trip = { 0, 1, "","","", 0, -1 };
 	if (fread(&trip, sizeof(tour1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	tourProgress.pKey = trip.pKey;
 	fseek(file, -1 * (long)sizeof(tour1), SEEK_CUR);
 	if (fwrite(&tourProgress, sizeof(tour1), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return;
 	}
 	fclose(file);
@@ -582,12 +582,12 @@ void addAddressOfTourToRubbish(char progRubbishFileName[], int address)
 	fopen_s(&file, progRubbishFileName, "ab");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	if (fwrite(&address, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	fclose(file);
@@ -625,7 +625,7 @@ void removeAllTours(customer1 person, char tourFileName[], char tourRubbishFileN
 	fopen_s(&file, tourFileName, "rb+");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	int address = person.headerAddress;
@@ -635,7 +635,7 @@ void removeAllTours(customer1 person, char tourFileName[], char tourRubbishFileN
 		fseek(file, (address * sizeof(tour1) + sizeof(int)), SEEK_SET);
 		if (fread(&trip, sizeof(tour1), 1, file) != 1)
 		{
-			errorWorkingWithFile(file, 2, functionName);
+			Fileerrors(file, 2, functionName);
 			return;
 		}
 		trip.status = 0;
@@ -643,7 +643,7 @@ void removeAllTours(customer1 person, char tourFileName[], char tourRubbishFileN
 		fseek(file, (address * sizeof(tour1) + sizeof(int)), SEEK_SET);
 		if (fwrite(&trip, sizeof(tour1), 1, file) != 1)
 		{
-			errorWorkingWithFile(file, 3, functionName);
+			Fileerrors(file, 3, functionName);
 			return;
 		}
 		address = trip.nextAddress;
@@ -662,12 +662,12 @@ void printAllDateFromIndexFile(char indexFileName[])
 	fopen_s(&file, indexFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	if (fread(&readSize, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	printf("Размер=%d.\n", readSize);
@@ -678,7 +678,7 @@ void printAllDateFromIndexFile(char indexFileName[])
 		if (fread(&theIndex, sizeof(index1), 1, file) != 1)
 		{
 			if (feof(file) != 0) break;
-			errorWorkingWithFile(file, 3 + i, functionName);
+			Fileerrors(file, 3 + i, functionName);
 			return;
 		}
 		printf("%d) pKey=%d, адресс=%d.\n", i, theIndex.pKey, theIndex.address);
@@ -694,13 +694,13 @@ void printAllDateFromDataFile(char dataFileName[])
 	fopen_s(&file, dataFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return;
 	}
 	int readSize = 0;
 	if (fread(&readSize, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	printf("Размер=%d.\n", readSize);
@@ -711,7 +711,7 @@ void printAllDateFromDataFile(char dataFileName[])
 		if (fread(&person, sizeof(customer1), 1, file) != 1)
 		{
 			if (feof(file) != 0) break;
-			errorWorkingWithFile(file, 3 + i, functionName);
+			Fileerrors(file, 3 + i, functionName);
 			return;
 		}
 		printf("%d) pKey=%d, статус=%d, имя=%s, телефон=%d, hAddress=%d, количество туров=%d.\n", i, person.pKey, person.status, person.name, person.phone, person.headerAddress, person.numberOfTours);
@@ -732,13 +732,13 @@ void printAllDateFromTourFile(char tourFileName[])
 	fopen_s(&file, tourFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return NULL;
 	}
 	int readSize = 0;
 	if (fread(&readSize, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	printf("Размер=%d.\n", readSize);
@@ -749,7 +749,7 @@ void printAllDateFromTourFile(char tourFileName[])
 		if (fread(&prog, sizeof(tour1), 1, file) != 1)
 		{
 			if (feof(file) != 0) break;
-			errorWorkingWithFile(file, 3 + i, functionName);
+			Fileerrors(file, 3 + i, functionName);
 			return;
 		}
 		printf("%d) pKey=%d, статус=%d, название=%s,начало=%s,конец=%s, цена=%d, nextAddress=%d.\n", i, prog.pKey, prog.status, prog.tourName, prog.begin, prog.end, prog.price, prog.nextAddress);
@@ -765,13 +765,13 @@ void printAllDateFromTourRubbishFile(char RubbishFileName[])
 	fopen_s(&file, RubbishFileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 3, functionName);
+		Fileerrors(file, 3, functionName);
 		return NULL;
 	}
 	int readSize = 0;
 	if (fread(&readSize, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return;
 	}
 	printf("Размер=%d.\n", readSize);
@@ -782,7 +782,7 @@ void printAllDateFromTourRubbishFile(char RubbishFileName[])
 		if (fread(&address, sizeof(int), 1, file) != 1)
 		{
 			if (feof(file) != 0) break;
-			errorWorkingWithFile(file, 3 + i, functionName);
+			Fileerrors(file, 3 + i, functionName);
 			return;
 		}
 		printf("%d) адресс=%d.\n", i, address);
@@ -797,13 +797,13 @@ int getNumberOfItemsInFile(char fileName[])
 	fopen_s(&file, fileName, "rb");
 	if (file == NULL)
 	{
-		errorWorkingWithFile(file, 1, functionName);
+		Fileerrors(file, 1, functionName);
 		return -1;
 	}
 	int number = 0;
 	if (fread(&number, sizeof(int), 1, file) != 1)
 	{
-		errorWorkingWithFile(file, 2, functionName);
+		Fileerrors(file, 2, functionName);
 		return -1;
 	}
 	fclose(file);
